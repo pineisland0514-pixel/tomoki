@@ -186,7 +186,7 @@ window.__run=()=>{for(const[n,f]of Object.entries(draws))document.querySelectorA
     </div>
 
     <section id="results">
-      <h2 class="tz-h">試合結果 <small>新しい順</small></h2>
+      <h2 class="tz-h">試合結果 <small>直近5日分・新しい順</small></h2>
       <div data-draw="results" data-source="games goals"></div>
     </section>
 
@@ -353,7 +353,7 @@ dash.draw('results', (el) => {
   el.replaceChildren();
   if (g.status !== 'ok') { el.textContent = '—'; return; }
   const goals = s.status === 'ok' ? s.data : [];
-  const recent = [...new Set(g.data.map((m) => m.date))].sort().slice(-3);
+  const recent = [...new Set(g.data.map((m) => m.date))].sort().slice(-5);
   const days = d3.groups(g.data.filter((m) => recent.includes(m.date)), (m) => m.date + '|' + m.competition).reverse();
   days.forEach(([key, ms]) => {
     const f = ms[0]; const d = tz.parseDate(f.date);
